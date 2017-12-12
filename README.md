@@ -52,7 +52,7 @@ This will output the first 5 cargo flights with a crew of one. Examine the **Que
 
 *What are the coordinates of the base where the new TIE Fighter prototypes are being tested? (Note that the new prototypes are equipped with an hyperdrive).*
 
-Mission 3: Graph API 
+##Mission 3: Graph API 
 **Objective:**
 In this mission you’ll use the intelligence gathered so far to disrupt the supply lines to the hidden facility. First, you’ll import a cargo route data set into Cosmos DB using the Graph API. By querying the cargo route graph, you’ll determine the best place to attack in order to disrupt the production of the TIE Fighter prototypes.
 
