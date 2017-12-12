@@ -15,9 +15,10 @@ namespace ImportKeyValueDatabase
         public Planet(string planetName, string coordinate)
         {
             this.PartitionKey = "planet";
-            this.RowKey = planetName;
+            this.RowKey = coordinate;
+            this.PlanetName = planetName;
         }
 
-        public string Coordinate { get; set; }
+        public string PlanetName { get; set; }
     }
 }
