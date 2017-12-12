@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.Graphs;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace CosmosDBClient
@@ -52,23 +52,70 @@ namespace CosmosDBClient
             }
         }
 
-        static async Task<(List<T> results, double costs)> ExecuteGremlinQueryAsync<T>(DocumentClient client, DocumentCollection collection, string queryText)
+        public async Task Query()
+        {
+            using (DocumentClient client = CreateDocumentClient())
+            {
+                var collection = await Connect(client);
+
+                string query = "g.V()";
+
+                await ExecuteGremlinQueryAsync<dynamic>(client, collection, query).ConfigureAwait(false);
+            }
+        }
+
+        public async Task Interactive()
+        {
+            using (DocumentClient client = CreateDocumentClient())
+            {
+                var collection = await Connect(client);
+
+                ConsoleColor defaultColor = Console.ForegroundColor;
+                while (true)
+                {
+                    try
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("graph> ");
+
+                        string query = Console.ReadLine();
+                        if (query.ToLowerInvariant() == "quit")
+                        {
+                            break;
+                        }
+
+                        // execute
+                        Console.ForegroundColor = defaultColor;
+                        (List<dynamic> results, double costs) = await ExecuteGremlinQueryAsync<dynamic>(client, collection, query)
+                            .ConfigureAwait(false);
+
+                        foreach (dynamic result in results)
+                        {
+                            Console.WriteLine($"{result}");
+                        }
+
+                        Console.WriteLine($"\nQuery costs: {costs} RUs.\n");
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Enable to execute query. Check the syntax.\n");
+                    }
+                }
+            }
+        }
+
+        private async Task<(List<T> results, double costs)> ExecuteGremlinQueryAsync<T>(
+            DocumentClient client, DocumentCollection collection, string queryText)
         {
             List<T> results = new List<T>();
             double costs = 0;
 
-            var query = client.CreateGremlinQuery<T>(collection, queryText);
+            IDocumentQuery<T> query = client.CreateGremlinQuery<T>(collection, queryText);
             while (query.HasMoreResults)
             {
-                #region simple
-                //foreach (T result in await query.ExecuteNextAsync<T>().ConfigureAwait(false))
-                //{
-                //    results.Add(result);
-                //}
-                #endregion
-
                 FeedResponse<T> response = await query.ExecuteNextAsync<T>().ConfigureAwait(false);
                 costs = response.RequestCharge;
+
                 foreach (T result in response)
                 {
                     results.Add(result);
@@ -78,7 +125,7 @@ namespace CosmosDBClient
             return (results, costs);
         }
 
-        
+
 
 
         private DocumentClient CreateDocumentClient()
