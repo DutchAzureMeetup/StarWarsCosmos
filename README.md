@@ -17,7 +17,7 @@ By hacking Empire systems, the RESISTANCE has retrieved a data dump of Empire st
 **Objective:**
 In this mission you’ll import the Imperial starship data set into Cosmos DB using the SQL API. By querying the imported data, you’ll discover the location of the hidden facility where the new TIE Fighter prototypes are being assembled.
 
-1. Create a Cosmos DB database with a SQL API and data model. Navigate to the **Keys** blade in the newly created databases resource and note the `URI` and `PRIMARY KEY` fields. You will need these values later on.
+1. Create a Cosmos DB database with a SQL API and data model. Navigate to the **Keys** blade in the newly created database resource and note the `URI` and `PRIMARY KEY` fields. You will need these values later on.
 
 2. Open the **CosmosDBClient** solution and edit the **appsettings.json** class. There are some settings defined here that you’ll need to change to be able to connect to your database. Use the values of the `URI` and `PRIMARY KEY` fields you’ve retrieved earlier to set the `endpointUrl` and `authorizationKey` fields of the `sqlApi` subsection.
 
