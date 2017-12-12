@@ -46,8 +46,8 @@ This will output the first 5 cargo flights with a crew of one. Examine the **Que
 
 8. Answer the following questions by querying the imported data set:
 
-What’s the average size of the crew on cargo flights carrying a payload of less than or equal to 50 metric tons?
+*What’s the average size of the crew on cargo flights carrying a payload of less than or equal to 50 metric tons?*
 
-How many non-cargo / fighter flights are there in the collection?
+*How many non-cargo / fighter flights are there in the collection?*
 
-What are the coordinates of the base where the new TIE Fighter prototypes are being tested? (Note that the new prototypes are equipped with an hyperdrive).
+*What are the coordinates of the base where the new TIE Fighter prototypes are being tested? (Note that the new prototypes are equipped with an hyperdrive).*
