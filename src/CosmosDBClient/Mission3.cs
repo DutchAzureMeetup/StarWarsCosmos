@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.Graphs;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
 
 namespace CosmosDBClient
 {
@@ -28,21 +25,7 @@ namespace CosmosDBClient
             {
                 var collection = await Connect(client);
 
-                Console.WriteLine("Importing cargo route data into database, this may take a minute...");
-
-                //// Load the cargo routes data.
-                //JObject cargoRoutes;
-                //using (var reader = new JsonTextReader(File.OpenText("cargoroutes.json")))
-                //{
-                //    cargoRoutes = JObject.Load(reader);
-                //}
-
-                //GenerateThorilideRoute(cargoRoutes);
-                //GenerateMiscRoutes(cargoRoutes);
-
-                //var queries2 = MapToQueries(cargoRoutes);
-
-                //File.WriteAllLines("queries.txt", queries2.ToArray());
+                Console.WriteLine("Importing cargo route data into database, this may take a few minutes...");
 
                 var queries = await File.ReadAllLinesAsync("cargoroutes.txt").ConfigureAwait(false);
                 foreach (string query in queries)
@@ -58,9 +41,18 @@ namespace CosmosDBClient
             {
                 var collection = await Connect(client);
 
-                string query = "g.V()";
+                // The following query starts at the vertice representing the Serenity space port.
+                // For this port, we find all cargo flights that arrived there and navigate to the cargo (using the payload edge).
+                // Then we trace back from the cargo to find all other space ports that received the same type of cargo.
+                string query = "g.V('moseisley.3').in('destination').out('payload').in('payload').out('destination').dedup()";
 
-                await ExecuteGremlinQueryAsync<dynamic>(client, collection, query).ConfigureAwait(false);
+                (List<dynamic> results, double costs) = await ExecuteGremlinQueryAsync<dynamic>(client, collection, query)
+                    .ConfigureAwait(false);
+
+                foreach (dynamic result in results)
+                {
+                    Console.WriteLine($"{result}");
+                }
             }
         }
 

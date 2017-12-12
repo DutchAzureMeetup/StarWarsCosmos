@@ -51,3 +51,47 @@ This will output the first 5 cargo flights with a crew of one. Examine the **Que
 *How many non-cargo / fighter flights are there in the collection?*
 
 *What are the coordinates of the base where the new TIE Fighter prototypes are being tested? (Note that the new prototypes are equipped with an hyperdrive).*
+
+Mission 3: Graph API 
+**Objective:**
+In this mission you’ll use the intelligence gathered so far to disrupt the supply lines to the hidden facility. First, you’ll import a cargo route data set into Cosmos DB using the Graph API. By querying the cargo route graph, you’ll determine the best place to attack in order to disrupt the production of the TIE Fighter prototypes.
+
+1. Create a second Cosmos DB database; this time configured for the Graph API and data model. Navigate to the **Keys** blade in the newly created databases resource and note the `URI` and `PRIMARY KEY` fields. You will need these values later on.
+
+2. Open the **CosmosDBClient** solution and edit the **appsettings.json** class. There are some settings defined here that you’ll need to change to be able to connect to your database. Use the values of the `URI` and `PRIMARY KEY` fields you’ve retrieved earlier to set the `endpointUrl` and `authorizationKey` fields of the `graphApi` subsection.
+
+3. Open the **Mission3** class and examine the **Seed** method. This method first creates the database and collection if they doesn’t exist yet (see the **Connect** method). Then it will import the cargo route data into the collection.
+
+4. Have a look at the **cargoroutes.txt** file. It contains Gremlin queries to insert all cargo route data into the database. You can use this same syntax in the portal to add data to the graph.
+
+5. Run the **Seed** method from the command line using the following syntax (make sure to run the command from the *bin/Debug/netcoreapp2.0/* folder):
+
+```
+dotnet client.dll mission3 seed 
+```
+
+6. You can view the added vertices and edges in the portal if you navigate to the **Data Explorer** blade of the database.
+
+7. You can also use the .NET SDK to query Cosmos DB. Start the client app using the **query** command:
+
+```
+dotnet client.dll mission3 query
+```
+
+This will output all space ports that receive the same type of shipments as the Mos Eisley space port. Examine the **Query** method in the **Mission3** class to see how the data is retrieved. 
+
+You can also run your own queries using the portal or opening an interactive console by running:
+
+```
+dotnet client.dll mission3 interactive
+```
+
+For more information on the Gremlin query syntax, see https://docs.microsoft.com/en-us/azure/cosmos-db/gremlin-support.
+
+8.  Answer the following questions by querying the imported data set:
+
+*What’s the name of the hidden facility? (Hint: there’s only one facility/port on the planet you’ve discovered in mission 2)*
+
+*What’s the main mineral resource being transported to the hidden facility?*
+
+*Advice on an attack plan to disrupt manufacturing of the new TIE models. Which facility / space port should we target?*
