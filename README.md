@@ -3,7 +3,6 @@
 ## Prerequisites
 - In this lab you’ll work with both the SQL (DocumentDB) and Graph (Gremlin) API’s, therefore you’ll need two Cosmos DB databases. You can try Azure Cosmos DB for free without an Azure subscription (free or charge and commitments) at https://azure.microsoft.com/en-us/try/cosmosdb/.
 However, this is limited to a single API per Microsoft account at a time; so use multiple Microsoft accounts or join up with other rebel forces to have access to multiple free databases.
-
 Alternatively, you can create Cosmos DB databases in your own Azure subscription if you have one, or create a trial Azure subscription.
 
 - Clone or download the Dutch Azure Meetup Star Wars repository at https://github.com/DutchAzureMeetup/StarWarsCosmos.
