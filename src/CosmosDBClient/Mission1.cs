@@ -41,49 +41,24 @@ namespace CosmosDBClient
             }
         }
 
-        //static async Task QueryDocumentDb()
-        //{
-        //    using (DocumentClient documentClient = new DocumentClient(new Uri(EndpointUrl), AuthorizationKey))
-        //    {
-        //        // Create the database (if it doesn't exist yet).
-        //        Database database = new Database { Id = DatabaseId };
+        public async Task Query()
+        {
+            using (DocumentClient client = CreateDocumentClient())
+            {
+                var collectionUri = await Connect(client);
 
-        //        await documentClient.CreateDatabaseIfNotExistsAsync(database);
+                var flights = client.CreateDocumentQuery<CargoFlight>(collectionUri)
+                    .Where(x => x.Crew == 1)
+                    .OrderBy(x => x.FlightTimestamp)
+                    .Take(5)
+                    .AsEnumerable();
 
-        //        var databaseUri = UriFactory.CreateDatabaseUri(DatabaseId);
-
-        //        // Create a collection in the database (if it doesn't exist yet).
-        //        DocumentCollection documentCollection = new DocumentCollection { Id = DocumentCollectionId };
-        //        RequestOptions requestOptions = new RequestOptions { OfferThroughput = 1000 };
-
-        //        await documentClient.CreateDocumentCollectionIfNotExistsAsync(databaseUri, documentCollection, requestOptions);
-
-        //        var documentCollectionUri = UriFactory.CreateDocumentCollectionUri(DatabaseId, DocumentCollectionId);
-
-
-
-
-        //var cargoFlight = documentClient.CreateDocumentQuery<FighterFlight>(documentCollectionUri)
-        //    .Where(x => x.Base != null && x.Diagnostics.HyperdriveRating == 3.0M)
-        //    .AsEnumerable()
-        //    .GroupBy(x => x.Base);
-
-        //        var flights = documentClient.CreateDocumentQuery<CargoFlight>(documentCollectionUri)
-        //            .Where(x => x.Cargo.Quantity <= 50)
-        //            .
-        //            .Average(x => x.Crew);
-        //        //.AsEnumerable()
-        //        //.Average(x => x.Crew);
-
-        //        Console.WriteLine(flights);
-        //        //                    .Take(5);
-
-        //        //foreach (var flight in flights)
-        //        //{
-        //        //    Console.WriteLine($"{flight.Id}: {flight.Origin} => {flight.Destination}");
-        //        //}
-        //    }
-        //}
+                foreach (var flight in flights)
+                {
+                    Console.WriteLine($"Id={flight.Id}, Crew={flight.Crew}, Origin={flight.Origin}, Dest={flight.Destination}");
+                }
+            }
+        }
 
         private DocumentClient CreateDocumentClient()
         {

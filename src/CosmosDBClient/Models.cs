@@ -7,8 +7,8 @@ namespace CosmosDBClient
         [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty("flight-timestamp")]
-        public int FlightTimestamp { get; set; }
+        [JsonProperty("flight_timestamp")]
+        public string FlightTimestamp { get; set; }
     }
 
     public class CargoFlight : Flight
