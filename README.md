@@ -51,7 +51,13 @@ This will output the first 5 cargo flights with a crew of one. Examine the **Que
 
 *How many non-cargo / fighter flights are there in the collection?*
 
-*What are the coordinates of the base where the new TIE Fighter prototypes are being tested? (Note that the new prototypes are equipped with an hyperdrive).*
+*What are the coordinates of the planet where the new TIE Fighter prototypes are being tested? (Note that the new prototypes are equipped with an hyperdrive).*
+
+Validate your answers using the following command:
+
+```
+client.exe mission2 quiz
+```
 
 ## Mission 2: Change Feed
 **Objective:**
@@ -77,6 +83,16 @@ client.exe mission2 runchangefeed
 ```
 
 The change feed keeps a checkpoint in the leases collection in your (DocumentDB) database. If you want to rerun the change feed from the beginning, remove the two documents from this collection first.
+
+2. Answer the following question:
+
+*What is the name of the planet where the new TIE Fighter prototypes are being tested?*
+
+Validate your answers using the following command:
+
+```
+client.exe mission2 quiz
+```
 
 ## Mission 3: Graph API 
 **Objective:**
@@ -122,3 +138,9 @@ For more information on the Gremlin query syntax, see https://docs.microsoft.com
 *What’s the main mineral resource being transported to the hidden facility?*
 
 *Advice on an attack plan to disrupt manufacturing of the new TIE models. Which facility / space port should we target?*
+
+Validate your answers using the following command:
+
+```
+client.exe mission2 quiz
+```
