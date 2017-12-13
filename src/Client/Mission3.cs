@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.Graphs;
-using Microsoft.Extensions.Configuration;
 
-namespace CosmosDBClient
+namespace Client
 {
     public class Mission3
     {
-        private readonly IConfigurationRoot _configuration;
-
-        public Mission3(IConfigurationRoot configuration)
-        {
-            _configuration = configuration;
-        }
-
         public async Task Seed()
         {
             using (DocumentClient client = CreateDocumentClient())
@@ -27,7 +20,7 @@ namespace CosmosDBClient
 
                 Console.WriteLine("Importing cargo route data into database, this may take a few minutes...");
 
-                var queries = await File.ReadAllLinesAsync("cargoroutes.txt").ConfigureAwait(false);
+                var queries = File.ReadAllLines("cargoroutes.txt");
                 foreach (string query in queries)
                 {
                     await ExecuteGremlinQueryAsync<dynamic>(client, collection, query).ConfigureAwait(false);
@@ -46,10 +39,10 @@ namespace CosmosDBClient
                 // Then we trace back from the cargo to find all other space ports that received the same type of cargo.
                 string query = "g.V('moseisley.3').in('destination').out('payload').in('payload').out('destination').dedup()";
 
-                (List<dynamic> results, double costs) = await ExecuteGremlinQueryAsync<dynamic>(client, collection, query)
+                var response = await ExecuteGremlinQueryAsync<dynamic>(client, collection, query)
                     .ConfigureAwait(false);
 
-                foreach (dynamic result in results)
+                foreach (dynamic result in response.Item1)
                 {
                     Console.WriteLine($"{result}");
                 }
@@ -78,15 +71,15 @@ namespace CosmosDBClient
 
                         // execute
                         Console.ForegroundColor = defaultColor;
-                        (List<dynamic> results, double costs) = await ExecuteGremlinQueryAsync<dynamic>(client, collection, query)
+                        var response = await ExecuteGremlinQueryAsync<dynamic>(client, collection, query)
                             .ConfigureAwait(false);
 
-                        foreach (dynamic result in results)
+                        foreach (dynamic result in response.Item1)
                         {
                             Console.WriteLine($"{result}");
                         }
 
-                        Console.WriteLine($"\nQuery costs: {costs} RUs.\n");
+                        Console.WriteLine($"\nQuery costs: {response.Item2} RUs.\n");
                     }
                     catch
                     {
@@ -96,7 +89,7 @@ namespace CosmosDBClient
             }
         }
 
-        private async Task<(List<T> results, double costs)> ExecuteGremlinQueryAsync<T>(
+        private async Task<Tuple<List<T>, double>> ExecuteGremlinQueryAsync<T>(
             DocumentClient client, DocumentCollection collection, string queryText)
         {
             List<T> results = new List<T>();
@@ -114,21 +107,21 @@ namespace CosmosDBClient
                 }
             }
 
-            return (results, costs);
+            return new Tuple<List<T>, double>(results, costs);
         }
 
         private DocumentClient CreateDocumentClient()
         {
-            var endpointUrl = new Uri(_configuration["graphApi:endpointUrl"]);
-            var authorizationKey = _configuration["graphApi:authorizationKey"];
+            var endpointUrl = new Uri(ConfigurationManager.AppSettings["GraphApi.EndpointUrl"]);
+            var authorizationKey = ConfigurationManager.AppSettings["GraphApi.AuthorizationKey"];
 
             return new DocumentClient(endpointUrl, authorizationKey);
         }
 
         private async Task<DocumentCollection> Connect(DocumentClient client)
         {
-            var databaseName = _configuration["graphApi:databaseName"];
-            var collectionName = _configuration["graphApi:collectionName"];
+            var databaseName = ConfigurationManager.AppSettings["GraphApi.DatabaseName"];
+            var collectionName = ConfigurationManager.AppSettings["GraphApi.CollectionName"];
 
             // Create the database (if it doesn't exist yet).
             Database database = new Database { Id = databaseName };

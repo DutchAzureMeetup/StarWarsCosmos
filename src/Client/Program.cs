@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
-using Microsoft.Extensions.Configuration;
 
-namespace CosmosDBClient
+namespace Client
 {
     class Program
     {
@@ -13,26 +11,20 @@ namespace CosmosDBClient
         {
             if (args.Length != 2)
             {
-                Console.WriteLine("Syntax: dotnet client.dll <missionx> <command>");
+                Console.WriteLine("Syntax: client.exe <missionx> <command>");
                 Console.WriteLine();
-                Console.WriteLine("Example: dotnet client.dll mission1 seed");
+                Console.WriteLine("Example: client.exe mission1 seed");
                 return;
             }
 
             var mission = args[0];
             var command = args[1];
 
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
-
-            IConfigurationRoot configuration = builder.Build();
-
             try
             {
                 // Create an instance of the correct Mission class.
-                var missionType = Type.GetType($"CosmosDBClient.{mission}", true, true);
-                var missionInstance = Activator.CreateInstance(missionType, configuration);
+                var missionType = Type.GetType($"Client.{mission}", true, true);
+                var missionInstance = Activator.CreateInstance(missionType);
 
                 // Execute the mission method requested by the user.
                 var commandMethod = missionType.GetMethod(command, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);

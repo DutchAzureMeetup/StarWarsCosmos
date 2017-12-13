@@ -1,24 +1,8 @@
 ﻿using Microsoft.Azure.CosmosDB.Table;
 using Newtonsoft.Json;
 
-namespace CosmosDBChangeFeed
+namespace Client
 {
-    public class Planet : TableEntity
-    {
-        public Planet()
-        {
-
-        }
-        public Planet(string planetName, string coordinate)
-        {
-            this.PartitionKey = "planet";
-            this.RowKey = coordinate;
-            this.PlanetName = planetName;
-        }
-
-        public string PlanetName { get; set; }
-    }
-
     public class Flight
     {
         [JsonProperty("id")]
@@ -48,9 +32,6 @@ namespace CosmosDBChangeFeed
         [JsonProperty("base_id")]
         public string Base { get; set; }
 
-        [JsonProperty("planet")]
-        public string Planet { get; set; }
-
         [JsonProperty("diagnostics")]
         public FlightDiagnostics Diagnostics { get; set; }
     }
@@ -68,5 +49,21 @@ namespace CosmosDBChangeFeed
     {
         [JsonProperty("quantity")]
         public int Quantity { get; set; }
+    }
+
+    public class Planet : TableEntity
+    {
+        public Planet()
+        {
+
+        }
+        public Planet(string planetName, string coordinate)
+        {
+            this.PartitionKey = "planet";
+            this.RowKey = coordinate;
+            this.PlanetName = planetName;
+        }
+
+        public string PlanetName { get; set; }
     }
 }

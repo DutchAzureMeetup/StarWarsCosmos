@@ -1,17 +1,16 @@
-﻿namespace CosmosDBChangeFeed
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Azure.Documents;
-    using Microsoft.Azure.Documents.ChangeFeedProcessor;
-    using Microsoft.Azure.Documents.Client;
-    using Newtonsoft.Json;
-    using Microsoft.Azure.CosmosDB.Table;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Azure.CosmosDB.Table;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.ChangeFeedProcessor;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Storage;
 
+namespace Client
+{
     /// <summary>
     /// This class implements the IChangeFeedObserver interface and is used to observe 
     /// changes on change feed. ChangeFeedEventHost will create as many instances of 
@@ -19,31 +18,27 @@
     /// </summary>
     public class DocumentFeedObserver : IChangeFeedObserver
     {
-        private static int totalDocs = 0;
-        private DocumentClient client;
-        private Uri destinationCollectionUri;
+        private static int _totalDocs = 0;
 
-        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-                CloudConfigurationManager.GetSetting("StorageConnectionString"));
-
-        CloudTableClient tableClient = null;
-        CloudTable table = null;
+        private readonly DocumentClient _client;
+        private readonly Uri _destinationCollectionUri;
+        private readonly CloudTable _planetsTable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentFeedObserver" /> class.
         /// Saves input DocumentClient and DocumentCollectionInfo parameters to class fields
         /// </summary>
         /// <param name="client"> Client connected to destination collection </param>
-        /// <param name="destCollInfo"> Destination collection information </param>
-        public DocumentFeedObserver(DocumentClient client, DocumentCollectionInfo destCollInfo)
+        /// <param name="destinationCollection"> Destination collection information </param>
+        public DocumentFeedObserver(DocumentClient client, DocumentCollectionInfo destinationCollection)
         {
-            this.client = client;
+            _client = client;
+            _destinationCollectionUri = UriFactory.CreateDocumentCollectionUri(destinationCollection.DatabaseName, destinationCollection.CollectionName);
 
-            if (destCollInfo == null) return;
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["TableApi.StorageConnectionString"]);
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
-            this.destinationCollectionUri = UriFactory.CreateDocumentCollectionUri(destCollInfo.DatabaseName, destCollInfo.CollectionName);
-            tableClient = storageAccount.CreateCloudTableClient();
-            table = tableClient.GetTableReference("planets");
+            _planetsTable = tableClient.GetTableReference("planets");
         }
 
         /// <summary>
@@ -84,7 +79,8 @@
         public Task ProcessChangesAsync(ChangeFeedObserverContext context, IReadOnlyList<Document> docs)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Change feed: PartitionId {0} total {1} doc(s)", context.PartitionKeyRangeId, Interlocked.Add(ref totalDocs, docs.Count));
+            Console.WriteLine("Change feed: PartitionId {0} total {1} doc(s)", context.PartitionKeyRangeId, Interlocked.Add(ref _totalDocs, docs.Count));
+
             foreach (Document doc in docs)
             {
                 // TODO: Write code to set the name of the planet into the document 

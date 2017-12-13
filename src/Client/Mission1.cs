@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,17 +8,10 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
-namespace CosmosDBClient
+namespace Client
 {
     public class Mission1
     {
-        private readonly IConfigurationRoot _configuration;
-
-        public Mission1(IConfigurationRoot configuration)
-        {
-            _configuration = configuration;
-        }
-
         public async Task Seed()
         {
             using (DocumentClient client = CreateDocumentClient())
@@ -62,16 +56,16 @@ namespace CosmosDBClient
 
         private DocumentClient CreateDocumentClient()
         {
-            var endpointUrl = new Uri(_configuration["sqlApi:endpointUrl"]);
-            var authorizationKey = _configuration["sqlApi:authorizationKey"];
+            var endpointUrl = new Uri(ConfigurationManager.AppSettings["SqlApi.EndpointUrl"]);
+            var authorizationKey = ConfigurationManager.AppSettings["SqlApi.AuthorizationKey"];
 
             return new DocumentClient(endpointUrl, authorizationKey);
         }
 
         private async Task<Uri> Connect(DocumentClient client)
         {
-            var databaseName = _configuration["sqlApi:databaseName"];
-            var collectionName = _configuration["sqlApi:collectionName"];
+            var databaseName = ConfigurationManager.AppSettings["SqlApi.DatabaseName"];
+            var collectionName = ConfigurationManager.AppSettings["SqlApi.StarshipCollectionName"];
 
             // Create the database (if it doesn't exist yet).
             Database database = new Database { Id = databaseName };

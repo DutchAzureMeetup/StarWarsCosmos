@@ -11,7 +11,7 @@
 // </copyright>
 //---------------------------------------------------------------------------------
 
-namespace CosmosDBChangeFeed
+namespace Client
 {
     using Microsoft.Azure.Documents.ChangeFeedProcessor;
     using Microsoft.Azure.Documents.Client;
