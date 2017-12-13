@@ -10,7 +10,7 @@ namespace Client
 {
     public class QuizService
     {
-        private readonly string _teamName = "Red 1";
+        private readonly string _teamName = ConfigurationManager.AppSettings["TeamName"];
         private readonly HttpClient _client;
 
         public QuizService()
