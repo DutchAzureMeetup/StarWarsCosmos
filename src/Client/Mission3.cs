@@ -10,8 +10,12 @@ using Microsoft.Azure.Graphs;
 
 namespace Client
 {
-    public class Mission3
+    public class Mission3 : MissionBase
     {
+        public Mission3() : base(3)
+        {
+        }
+
         public async Task Seed()
         {
             using (DocumentClient client = CreateDocumentClient())

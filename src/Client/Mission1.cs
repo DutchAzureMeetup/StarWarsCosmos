@@ -10,8 +10,12 @@ using Newtonsoft.Json.Linq;
 
 namespace Client
 {
-    public class Mission1
+    public class Mission1 : MissionBase
     {
+        public Mission1() : base(1)
+        {
+        }
+
         public async Task Seed()
         {
             using (DocumentClient client = CreateDocumentClient())
@@ -25,13 +29,12 @@ namespace Client
                 var documents = File.ReadAllLines("flightdata.json")
                     .Select(line => JObject.Parse(line));
 
-                // Add each document to the database. Usually, to do bulk insert of documents it is recommended to
-                // use a Stored Procedure and pass a batch of documents to the Stored Prcoedure. This will cut down
-                // on the number of roundtrips required. 
-                foreach (var document in documents)
-                {
-                    await client.CreateDocumentAsync(collectionUri, document);
-                }
+                // EXERCISE 
+                // Write code to insert the documents into the database. 
+                // It's ok to do this one by one. Usually, to do bulk insert of documents it is recommended to
+                // use a Stored Procedure and pass a batch of documents to the Stored Procedure. This will cut down
+                // on the number of roundtrips required. But we need to hurry to find the hidden facility! ;-)
+                throw new NotImplementedException();
             }
         }
 

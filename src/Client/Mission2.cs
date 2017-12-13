@@ -7,8 +7,12 @@ using Microsoft.Azure.Documents.Client;
 
 namespace Client
 {
-    public class Mission2
+    public class Mission2 : MissionBase
     {
+        public Mission2() : base(2)
+        {
+        }
+
         /// <summary>
         /// Registers change feed observer to update changes read on change feed to destination 
         /// collection. Deregisters change feed observer and closes process when enter key is pressed

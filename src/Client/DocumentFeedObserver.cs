@@ -83,7 +83,9 @@ namespace Client
 
             foreach (Document doc in docs)
             {
-                // TODO: Write code to set the name of the planet into the document 
+                // EXERCISE:
+                // Write code to set the name of the planet into the document.
+                // We've already instantiated _planetsTable for you.
             }
 
             return Task.CompletedTask;

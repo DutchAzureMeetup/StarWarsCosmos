@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.CosmosDB.Table;
+﻿using System.Collections.Generic;
+using Microsoft.Azure.CosmosDB.Table;
 using Newtonsoft.Json;
 
 namespace Client
@@ -65,5 +66,35 @@ namespace Client
         }
 
         public string PlanetName { get; set; }
+    }
+
+    public class QuizDto
+    {
+        public string Id { get; set; }
+
+        public List<QuestionDto> Questions { get; set; }
+    }
+
+    public class QuestionDto
+    {
+        public string Id { get; set; }
+
+        public string Text { get; set; }
+    }
+
+    public class AnswerDto
+    {
+        public string TeamName { get; set; }
+
+        public string QuestionId { get; set; }
+
+        public string Text { get; set; }
+    }
+
+    public class AnswerFeedbackDto
+    {
+        public bool IsCorrect { get; set; }
+
+        public string Hint { get; set; }
     }
 }
