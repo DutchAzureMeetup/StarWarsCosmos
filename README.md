@@ -56,7 +56,7 @@ This will output the first 5 cargo flights with a crew of one. Examine the **Que
 Validate your answers using the following command:
 
 ```
-client.exe mission2 quiz
+client.exe mission1 quiz
 ```
 
 ## Mission 2: Change Feed
@@ -142,5 +142,5 @@ For more information on the Gremlin query syntax, see https://docs.microsoft.com
 Validate your answers using the following command:
 
 ```
-client.exe mission2 quiz
+client.exe mission3 quiz
 ```
