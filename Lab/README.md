@@ -5,7 +5,8 @@
 However, this is limited to a single API per Microsoft account at a time; so use multiple Microsoft accounts or join up with other rebel forces to have access to multiple free databases.
 Alternatively, you can create Cosmos DB databases in your own Azure subscription if you have one, or create a trial Azure subscription.
 
-- This folder contains a sample client application that you will use to seed and query your databases.
+- Clone or download the Dutch Azure Meetup Star Wars repository at https://github.com/DutchAzureMeetup/StarWarsCosmos.
+This repository contains a sample client application that you will use to seed and query your databases.
 
 ## Background
 Grand Admiral Redriss Rustariss is secretly developing a TIE/H Hunter starfighter for the Empire. The Tie Hunters are armed with concussion rockets and twin blaster cannons, including a hyperdrive, and cloaking device. 

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWarsDashboard", "StarWarsDashboard\StarWarsDashboard.csproj", "{CC29D36B-D505-46BE-81D8-352752684CBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientConsole", "ConsoleApp1\ClientConsole.csproj", "{17A680B5-A0AE-4E74-8EE8-F0AFAC50D45C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC29D36B-D505-46BE-81D8-352752684CBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC29D36B-D505-46BE-81D8-352752684CBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC29D36B-D505-46BE-81D8-352752684CBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC29D36B-D505-46BE-81D8-352752684CBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17A680B5-A0AE-4E74-8EE8-F0AFAC50D45C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17A680B5-A0AE-4E74-8EE8-F0AFAC50D45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17A680B5-A0AE-4E74-8EE8-F0AFAC50D45C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17A680B5-A0AE-4E74-8EE8-F0AFAC50D45C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E4E6869-9324-4E46-B8B6-E8CA490B4A62}
+	EndGlobalSection
+EndGlobal
