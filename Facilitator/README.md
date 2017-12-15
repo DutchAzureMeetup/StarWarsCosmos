@@ -5,7 +5,7 @@ a planet name lookup table and a dashboard API & client application for displayi
 
 ## Prerequisites
 
-To run the Cosmos DB lab facilitators should first create an Azure Cosmos DB instance configured for the Table API.
+To run the Cosmos DB lab, facilitators should first create an Azure Cosmos DB instance configured for the Table API.
 The table will store a lookup table of planets used in the second mission as well as mission achievements.
 
 ## Import Planets lookup table
