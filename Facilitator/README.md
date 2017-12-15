@@ -1,4 +1,4 @@
-# Cosmos DB: TIE Fighter Troubles - Faciliator Resources
+# Cosmos DB: TIE Fighter Troubles - Facilitator Resources
 
 This folder contains the required resources for facilitating this Cosmos DB lab:
 a planet name lookup table and a dashboard API & client application for displaying attendee achievements.
