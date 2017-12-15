@@ -1,7 +1,7 @@
 # Cosmos DB Lab: TIE Fighter Troubles
 
 This repository contains all resources for a Star Wars themed Azure Cosmos DB lab used for Dutch Azure Meetup.
-Feel free to use this lab in your own meetups. The provided data sets use a lot of metadata retrieved using [The Star Wars API](https://swapi.co)
+Feel free to use this lab in your own meetups. The provided data sets use a lot of metadata retrieved using [The Star Wars API](https://swapi.co).
 
 The lab contains three missions that attendees must complete, dealing with SQL API, Change Feed and Graph API respectively.
 At the end of each lab, attendees can take a quiz to test if they've found the correct solutions.
