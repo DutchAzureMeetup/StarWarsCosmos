@@ -76,33 +76,19 @@ namespace Client
         /// <param name="context">The context specifying partition for this observer, etc.</param>
         /// <param name="docs">The documents changed.</param>
         /// <returns>A Task to allow asynchronous execution</returns>
-        public async Task ProcessChangesAsync(ChangeFeedObserverContext context, IReadOnlyList<Document> docs)
+        public Task ProcessChangesAsync(ChangeFeedObserverContext context, IReadOnlyList<Document> docs)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Change feed: PartitionId {0} total {1} doc(s)", context.PartitionKeyRangeId, Interlocked.Add(ref _totalDocs, docs.Count));
 
             foreach (Document doc in docs)
             {
-                FighterFlight flight = JsonConvert.DeserializeObject<FighterFlight>(doc.ToString());
-
-                if (!string.IsNullOrWhiteSpace(flight.Base) && string.IsNullOrWhiteSpace(flight.PlanetName))
-                {
-                    string coordinates = flight.Base;
-
-                    // Create a retrieve operation that takes a customer entity.
-                    TableOperation retrieveOperation = TableOperation.Retrieve<Planet>("planet", coordinates);
-
-                    // Execute the retrieve operation.
-                    TableResult retrievedResult = _planetsTable.Execute(retrieveOperation);
-
-                    if (retrievedResult.Result != null)
-                    {
-                        flight.PlanetName = ((Planet)retrievedResult.Result).PlanetName;
-                    }
-
-                    await _client.UpsertDocumentAsync(_destinationCollectionUri, flight);
-                }
+                // EXERCISE:
+                // Write code to set the name of the planet into the document.
+                // We've already instantiated _planetsTable for you.
             }
+
+            return Task.CompletedTask;
         }
     }
 }
